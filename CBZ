@@ -1,0 +1,216 @@
+/*
+CongoBusinessZone.jsx
+Version : Bilingue (FR/EN) + sélecteur de langue avec drapeaux + multi-page via React Router.
+*/
+
+import React, { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+
+const translations = {
+  en: {
+    homeTitle: 'Connecting international investors with Congolese opportunities.',
+    homeSubtitle: 'Your trusted partner for business, investment, and growth in the Democratic Republic of Congo.',
+    explore: 'Explore Opportunities',
+    contact: 'Contact Us',
+    servicesTitle: 'Our Services',
+    aboutTitle: 'About Congo Business Zone',
+    contactTitle: 'Get in Touch',
+    formName: 'Full Name',
+    formEmail: 'Email',
+    formMessage: 'Message',
+    send: 'Send',
+    copyright: 'All rights reserved.'
+  },
+  fr: {
+    homeTitle: 'Connecter les investisseurs internationaux aux opportunités congolaises.',
+    homeSubtitle: 'Votre partenaire de confiance pour les affaires, les investissements et la croissance en République Démocratique du Congo.',
+    explore: 'Découvrir les opportunités',
+    contact: 'Nous contacter',
+    servicesTitle: 'Nos Services',
+    aboutTitle: 'À propos de Congo Business Zone',
+    contactTitle: 'Entrer en contact',
+    formName: 'Nom complet',
+    formEmail: 'Adresse e-mail',
+    formMessage: 'Message',
+    send: 'Envoyer',
+    copyright: 'Tous droits réservés.'
+  }
+}
+
+function Navbar({ lang, setLang }) {
+  return (
+    <header className="bg-white shadow-sm">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-md bg-green-700 flex items-center justify-center text-white font-bold">CBZ</div>
+          <div>
+            <h1 className="text-xl font-semibold">Congo Business Zone</h1>
+            <p className="text-sm text-gray-500">Bridge RDC – International</p>
+          </div>
+        </Link>
+
+        <nav className="hidden md:flex gap-6 items-center text-sm">
+          <Link to="/" className="hover:text-green-700">Home</Link>
+          <Link to="/services" className="hover:text-green-700">Services</Link>
+          <Link to="/opportunities" className="hover:text-green-700">Opportunities</Link>
+          <Link to="/about" className="hover:text-green-700">About</Link>
+          <Link to="/contact" className="px-4 py-2 bg-green-700 text-white rounded-md">Contact</Link>
+          <div className="flex gap-2 ml-4">
+            <button onClick={() => setLang('fr')} className={`${lang==='fr'?'opacity-100':'opacity-60'} text-xl`}>🇫🇷</button>
+            <button onClick={() => setLang('en')} className={`${lang==='en'?'opacity-100':'opacity-60'} text-xl`}>🇬🇧</button>
+          </div>
+        </nav>
+      </div>
+    </header>
+  )
+}
+
+function Home({ t }) {
+  return (
+    <section className="relative bg-[url('/assets/hero.jpg')] bg-cover bg-center h-96 flex items-center">
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="bg-black/40 p-8 rounded-lg text-white max-w-2xl">
+          <h2 className="text-3xl font-extrabold">{t.homeTitle}</h2>
+          <p className="mt-3 text-base text-gray-200">{t.homeSubtitle}</p>
+          <div className="mt-4 flex gap-3">
+            <Link to="/opportunities" className="bg-green-600 px-4 py-2 rounded-md font-medium">{t.explore}</Link>
+            <Link to="/contact" className="bg-white text-black px-4 py-2 rounded-md">{t.contact}</Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function Services({ lang }) {
+  const content = {
+    en: [
+      ['Administrative Support', 'Support with business registration, permits, and local compliance.'],
+      ['Market Studies', 'Comprehensive analysis of Congolese markets and emerging sectors.'],
+      ['Local Representation', 'Professional representation for your company in the DRC.'],
+      ['Strategic Partnerships', 'Connecting you with trusted local and international partners.'],
+      ['Logistics Management', 'Full assistance with visas, accommodation, and transport.']
+    ],
+    fr: [
+      ['Accompagnement administratif', 'Aide à la création d’entreprise, obtention de permis et conformité locale.'],
+      ['Études de marché', 'Analyse complète des marchés congolais et des secteurs émergents.'],
+      ['Représentation locale', 'Représentation professionnelle de votre société en RDC.'],
+      ['Partenariats stratégiques', 'Mise en relation avec des partenaires locaux et internationaux fiables.'],
+      ['Gestion logistique', 'Assistance complète pour les visas, hébergements et transports.']
+    ]
+  }
+
+  return (
+    <main className="max-w-7xl mx-auto px-6 py-12">
+      <h3 className="text-2xl font-bold">{translations[lang].servicesTitle}</h3>
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {content[lang].map((s, i) => (
+          <div key={i} className="bg-white p-6 rounded-lg shadow hover:shadow-lg">
+            <h4 className="font-semibold">{s[0]}</h4>
+            <p className="text-sm text-gray-600 mt-2">{s[1]}</p>
+          </div>
+        ))}
+      </div>
+    </main>
+  )
+}
+
+function Opportunities({ lang }) {
+  const sectors = {
+    en: [
+      ['Energy', 'Renewable and off-grid power solutions in remote regions.'],
+      ['Agriculture', 'Sustainable agribusiness and export potential.'],
+      ['Mining', 'Exploration partnerships and value-chain development.'],
+      ['Infrastructure', 'Construction, transport, and logistics ventures.'],
+      ['Digital Economy', 'IT, fintech, and telecom innovation.']
+    ],
+    fr: [
+      ['Énergie', 'Solutions énergétiques renouvelables et hors réseau pour les zones éloignées.'],
+      ['Agriculture', 'Agrobusiness durable et potentiel d’exportation.'],
+      ['Mines', 'Partenariats d’exploration et développement de la chaîne de valeur.'],
+      ['Infrastructures', 'Projets de construction, transport et logistique.'],
+      ['Économie numérique', 'Innovation dans l’IT, la fintech et les télécommunications.']
+    ]
+  }
+
+  return (
+    <main className="max-w-7xl mx-auto px-6 py-12">
+      <h3 className="text-2xl font-bold mb-6">Opportunities / Opportunités</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {sectors[lang].map((s, i) => (
+          <div key={i} className="bg-white p-6 rounded-lg shadow hover:shadow-lg">
+            <h4 className="font-semibold">{s[0]}</h4>
+            <p className="text-sm text-gray-600 mt-2">{s[1]}</p>
+          </div>
+        ))}
+      </div>
+    </main>
+  )
+}
+
+function About({ t }) {
+  return (
+    <main className="max-w-7xl mx-auto px-6 py-12 bg-white rounded-lg shadow">
+      <h3 className="text-2xl font-bold">{t.aboutTitle}</h3>
+      <p className="text-gray-700 mt-3">Congo Business Zone (CBZ) is dedicated to building strong bridges between the DRC and the global business community. We provide insights, guidance, and operational support for investors and partners seeking to establish or grow in Congo.</p>
+    </main>
+  )
+}
+
+function Contact({ t }) {
+  return (
+    <main className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="bg-white p-6 rounded-lg shadow">
+        <h3 className="text-xl font-bold">{t.contactTitle}</h3>
+        <form className="mt-4 space-y-3" onSubmit={e => {e.preventDefault(); alert('Form submitted')}}>
+          <input className="w-full border rounded px-3 py-2" placeholder={t.formName} required />
+          <input className="w-full border rounded px-3 py-2" placeholder={t.formEmail} type="email" required />
+          <textarea className="w-full border rounded px-3 py-2" placeholder={t.formMessage} rows={4}></textarea>
+          <button className="bg-green-600 text-white px-4 py-2 rounded-md">{t.send}</button>
+        </form>
+      </div>
+
+      <div className="bg-white p-6 rounded-lg shadow">
+        <h3 className="text-xl font-bold mb-3">Congo Business Zone (CBZ)</h3>
+        <ul className="list-disc ml-5 text-gray-600 space-y-2">
+          <li>Bridge between Congo and the world / Pont entre le Congo et le monde</li>
+          <li>Professional local representation</li>
+          <li>Secure and transparent partnerships</li>
+          <li>Administrative and strategic support</li>
+        </ul>
+      </div>
+    </main>
+  )
+}
+
+function Footer({ t }) {
+  return (
+    <footer className="bg-white border-t py-6 mt-auto">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="text-sm text-gray-600">© {new Date().getFullYear()} Congo Business Zone. {t.copyright}</div>
+        <div className="text-sm text-gray-600">Bridge RDC — International Network</div>
+      </div>
+    </footer>
+  )
+}
+
+export default function CongoBusinessZone() {
+  const [lang, setLang] = useState('en')
+  const t = translations[lang]
+
+  return (
+    <Router>
+      <div className="min-h-screen bg-gray-50 text-gray-800 flex flex-col">
+        <Navbar lang={lang} setLang={setLang} />
+        <Routes>
+          <Route path="/" element={<Home t={t} />} />
+          <Route path="/services" element={<Services lang={lang} />} />
+          <Route path="/opportunities" element={<Opportunities lang={lang} />} />
+          <Route path="/about" element={<About t={t} />} />
+          <Route path="/contact" element={<Contact t={t} />} />
+        </Routes>
+        <Footer t={t} />
+      </div>
+    </Router>
+  )
+}
